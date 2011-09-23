@@ -33,15 +33,18 @@ class Boot extends Loggable {
       up => up.login) / "list"/ * >> Template(() => Templates("list" :: Nil) openOr NodeSeq.Empty)
 
     // Build SiteMap
-    val entries = List(indexPage, userPage)
+    val entries = List[Menu](indexPage, userPage)
 
 
 
     LiftRules.statelessRewrite.append {
-      case RewriteRequest(ParsePath( Nil, _, _, true), _, _) =>
+      case r1 @ RewriteRequest(ParsePath("index" :: Nil, _, _, true), _, _) =>
 
-        RewriteResponse("index" :: Nil, Map[String, String]())
-      case RewriteRequest(ParsePath(user :: Nil, _, _, false), _, _) =>
+        println("rewriting "+r1)
+
+        RewriteResponse("index" :: Nil, true)
+      case r2 @ RewriteRequest(ParsePath(user :: Nil, _, _, false), _, _) =>
+        println("Rewriting 2 "+r2)
 
         RewriteResponse("list" :: user :: Nil, Map[String, String]())
     }
