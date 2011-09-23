@@ -41,7 +41,7 @@ class Boot extends Loggable {
       case RewriteRequest(ParsePath( Nil, _, _, true), _, _) =>
 
         RewriteResponse("index" :: Nil, Map[String, String]())
-      case RewriteRequest(ParsePath(ValidUser(user) :: Nil, _, _, false), _, _) =>
+      case RewriteRequest(ParsePath(user :: Nil, _, _, false), _, _) =>
 
         RewriteResponse("list" :: user :: Nil, Map[String, String]())
     }
